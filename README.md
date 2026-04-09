@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+?? Portfolio Generator
+======================
 
-## Getting Started
+Turn your GitHub into a clean, job-ready portfolio in seconds.
 
-First, run the development server:
+Paste a GitHub profile ? instantly generate a structured portfolio with featured projects, skills, and summaries.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* * * * *
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+? Features
+----------
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   ?? Paste a GitHub profile and generate a portfolio instantly
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   ? Smart project selection (stars + recent activity)
 
-## Learn More
+-   ?? Auto-detected tech stack from repositories
 
-To learn more about Next.js, take a look at the following resources:
+-   ?? Featured project highlighting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   ?? Responsive layout (desktop + mobile)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-   ?? Clean project cards with descriptions and metadata
 
-## Deploy on Vercel
+-   ?? Contact section using public GitHub info
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* * * * *
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+??? Tech Stack
+--------------
+
+-   **Frontend:** Next.js (React)
+
+-   **Styling:** Tailwind CSS
+
+-   **API:** GitHub REST API
+
+* * * * *
+
+?? How It Works
+---------------
+
+1.  User pastes a GitHub profile link
+
+2.  App extracts the username
+
+3.  Fetches:
+
+    -   Profile data
+
+    -   Repository data
+
+4.  Sorts repositories by:
+
+    -   Star count (priority)
+
+    -   Last updated (fallback)
+
+5.  Displays:
+
+    -   Hero section (profile)
+
+    -   Skills (languages used)
+
+    -   Featured project
+
+    -   Project grid
+
+* * * * *
+
+?? Motivation
+-------------
+
+Creating a portfolio is time-consuming and often poorly executed.\
+This tool removes friction by automatically transforming GitHub data into a structured, professional portfolio.
+
+* * * * *
+
+?? License
+----------
+
+MIT License
+
+* * * * *
+
+?? Author
+---------
+
+Built by Jacob Villard
+
+GitHub: <https://github.com/jacobvillard>
+
