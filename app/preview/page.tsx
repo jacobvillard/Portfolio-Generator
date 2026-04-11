@@ -1,164 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
-type GitHubProfile = {
-    login: string;
-    name: string | null;
-    avatar_url: string;
-    bio: string | null;
-    email: string | null;
-    html_url: string;
-};
-
-type GitHubRepo = {
-    id: number;
-    name: string;
-    html_url: string;
-    description: string | null;
-    language: string | null;
-    stargazers_count: number;
-    updated_at: string;
-    fork: boolean;
-};
-
-export default function PreviewPage() {
-    const searchParams = useSearchParams();
-    const username = searchParams.get("user");
-
-    const [repos, setRepos] = useState<GitHubRepo[]>([]);
-    const [profile, setProfile] = useState<GitHubProfile | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    function sortRepoPriority(data: GitHubRepo[]) {
-        return data
-            .filter((repo) => !repo.fork)
-            .sort((a, b) => {
-                if (a.stargazers_count > 0 && b.stargazers_count > 0) {
-                    return b.stargazers_count - a.stargazers_count;
-                }
-
-                if (a.stargazers_count > 0) return -1;
-                if (b.stargazers_count > 0) return 1;
-
-                return (
-                    new Date(b.updated_at).getTime() -
-                    new Date(a.updated_at).getTime()
-                );
-            });
-    }
-
-    function getProjectDescription(repo: GitHubRepo) {
-        if (repo.description) return repo.description;
-
-        if (repo.language) {
-            return `A ${repo.language} project built and maintained on GitHub.`;
-        }
-
-        return "A software project built and maintained on GitHub.";
-    }
-
-    function getLearningText(repo: GitHubRepo) {
-        if (repo.language) {
-            return `Built experience working with ${repo.language}, project structure, iteration, and source control.`;
-        }
-
-        return "Built experience in project structure, iteration, and source control.";
-    }
-
-    useEffect(() => {
-        async function fetchGitHubData() {
-            if (!username) return;
-
-            try {
-                const profileResponse = await fetch(
-                    `https://api.github.com/users/${username}`
-                );
-                const profileData = await profileResponse.json();
-
-                const reposResponse = await fetch(
-                    `https://api.github.com/users/${username}/repos`
-                );
-                const reposData = await reposResponse.json();
-
-                const sortedRepos = sortRepoPriority(reposData);
-
-                setProfile(profileData);
-                setRepos(sortedRepos.slice(0, 7)); // 1 featured + 6 cards
-            } catch (error) {
-                console.log("Error fetching GitHub data:", error);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchGitHubData();
-    }, [username]);
-
-    const featuredProject = repos[0];
-    const projectCards = repos.slice(1, 7);
-
-    const skills = useMemo(() => {
-        const languageSet = new Set<string>();
-
-        repos.forEach((repo) => {
-            if (repo.language) {
-                languageSet.add(repo.language);
-            }
-        });
-
-        return Array.from(languageSet);
-    }, [repos]);
-
-    if (loading) {
-        return (
-            <main className="min-h-screen bg-black px-6 py-12 text-white">
-                <div className="mx-auto max-w-6xl">
-                    <p className="text-lg">Loading portfolio preview...</p>
-                </div>
-            </main>
-        );
-    }
-
-    return (
-        <main className="min-h-screen bg-black px-6 py-12 text-white">
-            <div className="mx-auto max-w-6xl">
-                {/* HERO */}
-                {profile && (
-                    <section className="mb-10 rounded-2xl border border-white/20 bg-white/5 p-8 shadow-lg">
-                        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                            <div className="flex items-center gap-5">
-                                <img
-                                    src={profile.avatar_url}
-                                    alt={profile.login}
-                                    className="h-24 w-24 rounded-full border border-white/20 object-cover"
-                                />
-
-                                <div>
-                                    <p className="text-sm uppercase tracking-[0.2em] text-white/60">
-                                        Portfolio Preview
-                                    </p>
-
-                                    <h1 className="mt-1 text-4xl font-bold">
-                                        {profile.name || profile.login}&apos;s Portfolio
-                                    </h1>
-
-                                    <p className="mt-2 text-lg text-white/70">
-                                        Developer Portfolio
-                                    </p>
-
-                                    <p className="mt-3 text-sm text-white/60">
-                                        @{profile.login}
-                                    </p>
-
-                                    <p className="mt-3 max-w-2xl text-sm text-white/80">
-                                        {profile.bio || "No bio provided yet."}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex gap-3">
+export { default } from "./PreviewPageClient";
+/*
                                 <a
                                     href={profile.html_url}
                                     target="_blank"
@@ -181,7 +24,7 @@ export default function PreviewPage() {
                     </section>
                 )}
 
-                {/* SKILLS */}
+                {/ * SKILLS * /}
                 <section className="mb-10">
                     <h2 className="mb-4 text-2xl font-semibold">Skills</h2>
 
@@ -201,7 +44,7 @@ export default function PreviewPage() {
                     </div>
                 </section>
 
-                {/* FEATURED PROJECT */}
+                {/ * FEATURED PROJECT * /}
                 {featuredProject && (
                     <section className="mb-12">
                         <h2 className="mb-4 text-2xl font-semibold">Featured Project</h2>
@@ -259,7 +102,7 @@ export default function PreviewPage() {
                     </section>
                 )}
 
-                {/* PROJECT GRID */}
+                {/ * PROJECT GRID * /}
                 <section className="mb-12">
                     <h2 className="mb-4 text-2xl font-semibold">Projects</h2>
 
@@ -311,7 +154,7 @@ export default function PreviewPage() {
                     </div>
                 </section>
 
-                {/* CONTACT */}
+                {/ * CONTACT * /}
                 {profile && (
                     <section className="rounded-2xl border border-white/20 bg-white/5 p-8 shadow-lg">
                         <h2 className="text-2xl font-semibold">Contact</h2>
@@ -346,3 +189,4 @@ export default function PreviewPage() {
         </main>
     );
 }
+*/

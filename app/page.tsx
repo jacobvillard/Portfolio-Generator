@@ -19,7 +19,7 @@ export default function Home() {
             }
 
             router.push(`/preview?user=${username}`);
-        } catch (err) {
+        } catch {
             console.log("Invalid GitHub URL");
         }
     };
